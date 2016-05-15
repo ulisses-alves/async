@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Async: Collatz sample</title>
+    <script src="../dist/async.min.js"></script>
+  </head>
+  <body>
+    <h1>Threading</h1>
+    <h2>Samples</h2>
+    <h3>Longuest Collatz sequence</h3>
+    <form>
+      <label>
+        Threshold <input name="threshold" type="number" value="1000000">
+      </label>
+      <br>
+      <label>
+        Threads <input name="threads" type="number" value="2">
+      </label>
+      <br>
+      <button type="button">OK</button>
+      <br>
+      <label>
+        Answer <input name="answer" type="text" readonly>
+        in <input name="duration" type="text" readonly> ms
+      </label>
+    </form>
+    <script>
+      var thresholdInput = document.getElementsByName('threshold')[0];
+      var threadsInput = document.getElementsByName('threads')[0];
+      var okButton = document.querySelector('button');
+      var answerInput = document.getElementsByName('answer')[0];
+      var durationInput = document.getElementsByName('duration')[0];
+
+
+      okButton.addEventListener('click', function () {
+        answerInput.value = null;
+        durationInput.value = null;
+
+        var threads = parseInt(threadsInput.value);
+        var threshold = parseInt(thresholdInput.value);
+        var ranges = createRanges(threshold, threads);
+        var startTime = Date.now();
+
+        var promises = ranges.map(function (r) {
+          return async(longestCollatz, null, [
+            r.begin,
+            r.end,
+            r.step
+          ]);
+        });
+
+        Promise.all(promises).then(function (results) {
+          var longest = {value: 0, count: 0};
+
+          results.forEach(function (r) {
+            if (r.count >  longest.count)
+              longest = r;
+          });
+
+          answerInput.value = longest.value;
+          durationInput.value = Date.now() - startTime;
+        });
+      });
+
+      function createRanges(threshold, threads) {
+        var ranges = [];
+
+        for (var i = 0; i < threads; i++) {
+          ranges.push({
+            begin: i + 1,
+            end: threshold,
+            step: threads
+          });
+        }
+
+        return ranges;
+      }
+
+      function longestCollatz(begin, end, step) {
+        var longest = {value: 0, count: 0};
+        var count, value;
+
+        function even(n) {
+          return n / 2;
+        }
+
+        function odd(n) {
+          return 3 * n + 1;
+        }
+
+        for (var n = begin; n <= end; n += step) {
+          value = n;
+          count = 0;
+
+          while (value !== 1) {
+            value = value % 2 ? odd(value) : even(value);
+            count++;
+          }
+
+          if (count > longest.count) {
+            longest.value = n;
+            longest.count = count;
+          }
+        }
+
+        return longest;
+      }
+
+    </script>
+  </body>
+</html>
