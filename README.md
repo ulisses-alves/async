@@ -2,10 +2,10 @@
 JavaScript library that streamlines real asynchronous code execution through use
 of web workers.
 
-## Usage
-`async(action [, scope] [, args])` returns `Promise` instance
+```javascript
+async(action [, scope] [, args])
+```
 
-### Parameters
 + `action` - Function to be executed asynchronously. It's important to note
 that the it needs to be serializable, so it all external references
 __must__ be injected through either `scope` or `args` parameters.
@@ -16,11 +16,17 @@ serializable.
 + `args` - Arguments `Array` to be passed to the `action` call. All arguments
 must also be JSON serializable.
 
-### Returns
-+ `Promise` instance - Resolves with return value of `action`. Rejects with
-uncaught `Error` object.
++ returns `Promise` instance - Resolves with return value of `action`. Rejects
+with uncaught `Error` instance.
 
-## Examples
+## Worker Pool
+The `Worker` pool size can be configured with the `pool` method.
+```javascript
+async.pool(size)
+```
++ `size` - Worker pool size. Default: `8`
+
+## Usage
 
 ### Simple
 ```javascript

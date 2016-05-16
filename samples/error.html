@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Async: error handling</title>
+    <script src="../dist/async.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      async(function () {
+        return null.toString()
+      })
+      .then(null, function (err) {
+        console.log(err)
+        document.body.textContent = JSON.stringify(err)
+      })
+
+    </script>
+  </body>
+</html>
