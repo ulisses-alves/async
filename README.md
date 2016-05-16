@@ -17,7 +17,8 @@ serializable.
 must also be JSON serializable.
 
 + returns `Promise` instance - Resolves with return value of `action`. Rejects
-with uncaught `Error` instance.
+with uncaught `Error` instance. `Promise.cancel()` aborts associated async
+execution.
 
 ## Worker Pool
 The `Worker` pool size can be configured with the `pool` method.
