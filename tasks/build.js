@@ -9,27 +9,28 @@ var tap = require('gulp-tap')
 var rename = require('gulp-rename')
 var lazypipe = require('lazypipe')
 var merge = require('merge-stream')
+var tsify = require('tsify')
+var babelify = require('babelify')
 
 module.exports = gulp.task('build', function () {
-  var jsTransform = lazypipe()
-    .pipe(buffer)
-    .pipe(sourcemaps.init, {loadMaps: true})
-    .pipe(uglify)
-    .pipe(rename, {extname: '.min.js'})
-    .pipe(sourcemaps.write, './')
-    .pipe(gulp.dest, './dist')
+  var babel = babelify.configure({
+    presets: ['es2015'],
+    extensions: ['.ts', '.tsx']
+  })
 
-  var async = gulp.src('./lib/async.js', {read: false})
-    .pipe(tap(function (file) {
-      var b = browserify({
-        entries: file.path,
-        debug: true,
-        standalone: 'async'
-      })
-
-      file.contents = b.bundle()
-    }))
-    .pipe(jsTransform())
-
-  return async
+  return browserify({
+    entries: './lib/async.ts',
+    debug: true,
+    standalone: 'async'
+  })
+  .plugin(tsify, {target: 'es2015', noImplicitAny: true})
+  .transform(babel)
+  .bundle()
+  .pipe(source('async.js'))
+  .pipe(buffer())
+  .pipe(sourcemaps.init({loadMaps: true}))
+  .pipe(uglify())
+  .pipe(rename({extname: '.min.js'}))
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('./dist'))
 })
