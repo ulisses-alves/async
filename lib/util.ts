@@ -3,7 +3,7 @@ interface Util {
   scriptBlob(src: string) : string
 }
 
-var util: Util = {
+let util: Util = {
   source: (fn) => {
     return '(' + fn.toString() + ')'
   },

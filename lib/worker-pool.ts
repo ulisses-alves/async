@@ -1,8 +1,4 @@
-import util from './util'
-import createWorker from './create-worker'
-
-var createWorkerSrc = util.source(createWorker) + '.call(this)'
-var workerBlob = util.scriptBlob(createWorkerSrc)
+import WorkerFactory from './worker-factory'
 
 interface QueueItem {
   (value: Worker) : void
@@ -22,11 +18,13 @@ class WorkerPool {
   private workers: Array<Worker>
   private idles: Array<Worker>
   private queue: Array<QueueItem>
+  private factory: WorkerFactory
 
   constructor(private size: number) {
     this.workers = []
     this.idles = []
     this.queue = []
+    this.factory = new WorkerFactory()
   }
 
   postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) : Promise<any> {
@@ -53,7 +51,7 @@ class WorkerPool {
     if (worker) return Promise.resolve(worker)
 
     if (this.workers.length < this.size) {
-      worker = new Worker(workerBlob)
+      worker = this.factory.createWorker()
       this.workers.push(worker)
       return Promise.resolve(worker)
     }

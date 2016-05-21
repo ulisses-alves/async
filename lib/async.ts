@@ -6,15 +6,15 @@ interface Async {
   pool(size: number) : void
 }
 
-var pool: WorkerPool = null
+let pool: WorkerPool = null
 
-var async = <Async> function (action, scope, args) {
+let async = <Async> function (action, scope, args) {
   if (!pool) async.pool(8)
 
-  var cancel: Function = null
-  var cancellation = new Promise((resolve) => cancel = resolve)
+  let cancel: Function = null
+  let cancellation = new Promise((resolve) => cancel = resolve)
 
-  var work = pool.postMessage({
+  let work = pool.postMessage({
     action: util.source(action),
     scope: scope,
     args: args
