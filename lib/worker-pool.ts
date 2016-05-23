@@ -27,16 +27,16 @@ class WorkerPool {
     this.factory = new WorkerFactory()
   }
 
-  postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) : Promise<any> {
+  postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) :
+  Promise<any> {
     return this.getWorker()
-    .then((worker) => {
-      return new Promise((resolve, reject) => {
+    .then(worker =>
+      new Promise((resolve, reject) => {
         worker.onmessage = this.handler(resolve)
         worker.onerror = this.handler(reject)
         worker.postMessage(message)
         cancellation.then(this.handler(() => worker.terminate()))
-      })
-    })
+      }))
   }
 
   killAll() : void {
@@ -60,7 +60,7 @@ class WorkerPool {
   }
 
   private handler(callback: WorkerCallback) : WorkerCallback {
-    var self = this
+    let self = this
 
     return function (e: Event) {
       this.onmessage = null
@@ -69,7 +69,7 @@ class WorkerPool {
       callback(e)
 
       if (self.queue.length) {
-        var notify = self.queue.pop()
+        let notify = self.queue.pop()
         return notify(this)
       }
 
