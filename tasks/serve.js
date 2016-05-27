@@ -1,8 +1,8 @@
 var gulp = require('gulp')
 var gls = require('gulp-live-server')
 
-module.exports = gulp.task('serve', function () {
+module.exports = gulp.task('serve', () => {
   var server = gls.static('.', 3000)
   server.start()
-  gulp.watch(['dist/*.js'], (f) => server.notify(f))
+  gulp.watch(['dist/*.js'], f => server.notify(f))
 })
