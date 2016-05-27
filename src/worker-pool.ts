@@ -8,7 +8,7 @@ interface WorkerCallback {
   (e: Event) : void
 }
 
-interface WorkerPoolMessage {
+export interface WorkerPoolMessage {
   action: string
   scope?: any
   args?: Array<any>

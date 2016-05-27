@@ -19,11 +19,11 @@ module.exports = gulp.task('build', function () {
   })
 
   return browserify({
-    entries: './lib/async.ts',
+    entries: './src/main.ts',
     debug: true,
     standalone: 'async'
   })
-  .plugin(tsify, {target: 'es2015', noImplicitAny: true})
+  .plugin(tsify, {target: 'es2015', noImplicitAny: true, declaration: true})
   .transform(babel)
   .bundle()
   .pipe(source('async.js'))

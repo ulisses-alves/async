@@ -1,15 +1,15 @@
 import util from './util'
 import WorkerPool from './worker-pool'
 
-interface CancelablePromise<T> extends Promise<T> {
+export interface CancelablePromise<T> extends Promise<T> {
   cancel: () => void
 }
 
-interface AsyncAction<T> {
+export interface AsyncAction<T> {
   (...p: any[]) : T
 }
 
-interface Async {
+export interface Async {
   <T>(action: AsyncAction<T>, scope: any, args: any[]) : CancelablePromise<T>
   pool: (size: number) => void
 }
@@ -20,14 +20,14 @@ let async: any = <T>(action: AsyncAction<T>, scope: any, args: any[]) => {
   if (!pool) async.pool(8)
 
   let cancel: () => void
-  let cancellation = new Promise((resolve) => cancel = resolve)
+  let cancellation = new Promise(resolve => cancel = resolve)
 
   let work: any = pool.postMessage({
     action: util.source(action),
     scope: scope,
     args: args
   }, cancellation)
-  .then((e) => e.data)
+  .then(e => e.data)
 
   work.cancel = cancel
 
@@ -39,4 +39,4 @@ async.pool = (size: number) => {
   pool = new WorkerPool(size)
 }
 
-export = <Async>async
+export default <Async>async
