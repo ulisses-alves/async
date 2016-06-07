@@ -8,7 +8,7 @@ let util: Util = {
     return `(${fn.toString()})`
   },
   scriptBlob: (src) => {
-    var blob = new Blob([src], {type: 'text/javascript'})
+    const blob = new Blob([src], {type: 'text/javascript'})
     return URL.createObjectURL(blob)
   }
 }
