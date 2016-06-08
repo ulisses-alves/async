@@ -1,3 +1,3 @@
 var gulp = require('gulp')
 
-module.exports = gulp.task('dev', ['clean', 'build', 'watch', 'serve'])
+module.exports = gulp.task('dev', ['watch', 'serve'])

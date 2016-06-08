@@ -18,6 +18,14 @@
     "url": "https://github.com/ulisses-alves/async/issues"
   },
   "homepage": "https://github.com/ulisses-alves/async#readme",
+  "config": {
+    "start_port": "3000"
+  },
+  "scripts": {
+    "gulp": "node node_modules/gulp/bin/gulp",
+    "prepublish": "npm run gulp",
+    "test": "npm run gulp -- test"
+  },
   "devDependencies": {
     "babel-polyfill": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
