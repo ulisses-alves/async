@@ -1,16 +1,15 @@
-export interface Util {
-  source(fn: Function) : string
-  scriptBlob(src: string) : string
-}
+import {Util} from './async.d.ts'
 
 let util: Util = {
-  source: (fn) => {
+  source: (fn: Function) : string => {
     return `(${fn.toString()})`
   },
-  scriptBlob: (src) => {
+  scriptBlob: (src: string) : string => {
     const blob = new Blob([src], {type: 'text/javascript'})
     return URL.createObjectURL(blob)
   }
 }
 
-export default util
+export default function () : Util {
+  return util
+}

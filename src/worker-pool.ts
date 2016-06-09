@@ -1,4 +1,9 @@
-import WorkerFactory from './worker-factory'
+import {
+  WorkerPool
+, WorkerPoolFactory
+, WorkerFactory
+, WorkerPoolMessage
+} from './async.d.ts'
 
 interface QueueItem {
   (value: Worker) : void
@@ -8,23 +13,15 @@ interface WorkerCallback {
   (e: Event) : void
 }
 
-export interface WorkerPoolMessage {
-  action: string
-  scope?: any
-  args?: Array<any>
-}
-
-class WorkerPool {
+class WorkerPoolImpl implements WorkerPool {
   private workers: Array<Worker>
   private idles: Array<Worker>
   private queue: Array<QueueItem>
-  private factory: WorkerFactory
 
-  constructor(private size: number) {
+  constructor(private factory: WorkerFactory, private size: number) {
     this.workers = []
     this.idles = []
     this.queue = []
-    this.factory = new WorkerFactory()
   }
 
   postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) :
@@ -78,4 +75,8 @@ class WorkerPool {
   }
 }
 
-export default WorkerPool
+export default function (workerFactory: WorkerFactory) : WorkerPoolFactory {
+  return function (size: number) : WorkerPool {
+    return new WorkerPoolImpl(workerFactory, size)
+  }
+}

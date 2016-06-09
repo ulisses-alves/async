@@ -10,7 +10,7 @@ var rename = require('gulp-rename')
 var tsify = require('tsify')
 var babelify = require('babelify')
 
-module.exports = gulp.task('build', ['clean'], function () {
+module.exports = gulp.task('build', ['clean'], () => {
   return browserify({
     entries: './src/main.ts',
     debug: true,

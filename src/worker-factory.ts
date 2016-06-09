@@ -1,10 +1,9 @@
-import util from './util'
-import metadata from './worker-meta'
+import {Util, WorkerFactory} from './async.d.ts'
 
-class WorkerFactory {
+class WorkerFactoryImpl implements WorkerFactory {
   private blobUrl: string
 
-  constructor() {
+  constructor(util: Util, metadata: Function) {
     var source = util.source(metadata) + '.call(this)'
     this.blobUrl = util.scriptBlob(source)
   }
@@ -14,4 +13,6 @@ class WorkerFactory {
   }
 }
 
-export default WorkerFactory
+export default function (util: Util, metadata: Function) : WorkerFactory {
+  return new WorkerFactoryImpl(util, metadata)
+}

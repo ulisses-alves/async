@@ -1,20 +1,25 @@
 import {expect} from 'chai'
 import {stub} from 'sinon'
-import util from '../src/util'
+import Util from '../src/util'
 
-describe('.source(fn) serializes function', () => {
-  let fn: any = null
-  const fnStr = 'fn content'
+describe('Util', () => {
+  let util: any = null
 
-  beforeEach(() => {
-    fn = {}
-    stub(fn, 'toString', () => fnStr)
-  })
+  beforeEach(() => util = Util())
 
-  it('should wrap function serialization', () => {
-    const source = util.source(fn)
-    expect(fn.toString.calledOnce).to.be.true
-    expect(source).to.equal(`(${fnStr})`)
+  describe('source(fn) serializes function', () => {
+    let fn: any = null
+    const fnStr = 'fn content'
+
+    beforeEach(() => {
+      fn = {}
+      stub(fn, 'toString', () => fnStr)
+    })
+
+    it('should wrap function serialization', () => {
+      const source = util.source(fn)
+      expect(fn.toString.calledOnce).to.be.true
+      expect(source).to.equal(`(${fnStr})`)
+    })
   })
 })
-
