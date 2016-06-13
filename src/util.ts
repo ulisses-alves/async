@@ -1,15 +1,14 @@
-import {Util} from './async.d.ts'
+import {Util, BlobFactory, UrlWrapper} from './async.d.ts'
+import Blob from './blob-factory'
 
-let util: Util = {
-  source: (fn: Function) : string => {
-    return `(${fn.toString()})`
-  },
-  scriptBlob: (src: string) : string => {
-    const blob = new Blob([src], {type: 'text/javascript'})
-    return URL.createObjectURL(blob)
+export default function (Blob: BlobFactory, Url: UrlWrapper) : Util {
+  return {
+    source: (fn: Function) : string => {
+      return `(${fn.toString()})`
+    },
+    scriptUrl: (src: string) : string => {
+      const blob = Blob([src], {type: 'text/javascript'})
+      return Url.createObjectURL(blob)
+    }
   }
-}
-
-export default function () : Util {
-  return util
 }

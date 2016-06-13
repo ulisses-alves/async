@@ -1,13 +1,13 @@
 function createWorker() {
-  let parseAction = (src: string) => {
-    var body = 'return (' + src + ')'
-    var fn = new Function(body)
+  const parseAction = (src: string) => {
+    const body = 'return (' + src + ')'
+    const fn = new Function(body)
     return fn()
   }
 
   this.onmessage = (e: MessageEvent) => {
-    var action = parseAction(e.data.action)
-    var result = action.apply(e.data.scope, e.data.args)
+    const action = parseAction(e.data.action)
+    const result = action.apply(e.data.scope, e.data.args)
     this.postMessage(result)
   }
 }

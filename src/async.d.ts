@@ -1,6 +1,18 @@
+export interface BlobFactory {
+  (blobParts: string[], options: {type: string}) : BlobWrapper
+}
+
+export interface BlobWrapper {
+  unwrap() : Blob
+}
+
+export interface UrlWrapper {
+  createObjectURL(blob: BlobWrapper) : string
+}
+
 export interface Util {
   source(fn: Function) : string
-  scriptBlob(src: string) : string
+  scriptUrl(src: string) : string
 }
 
 export interface WorkerFactory {
