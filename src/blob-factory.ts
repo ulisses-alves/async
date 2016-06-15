@@ -1,11 +1,7 @@
-import {BlobFactory, BlobWrapper} from './async.d.ts'
+import {BlobFactory} from './async.d.ts'
 
 let blobFactory: BlobFactory = (blobParts, options) => {
-  const blob = new Blob(blobParts, options)
-
-  return {
-    unwrap: () => blob
-  }
+  return new Blob(blobParts, options)
 }
 
 export default function () : BlobFactory {

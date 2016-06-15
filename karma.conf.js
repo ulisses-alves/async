@@ -2,7 +2,7 @@ module.exports = (config) => {
   config.set({
     files: ['tests/**/*.ts'],
     browsers: ['PhantomJS'],
-    frameworks: ['browserify', 'mocha', 'chai', 'sinon'],
+    frameworks: ['browserify', 'mocha'],
     reporters: ['mocha'],
     preprocessors: {
       'tests/**/*.ts': ['browserify']
@@ -12,7 +12,7 @@ module.exports = (config) => {
         ['babelify', {extensions: ['.ts', '.tsx']}]
       ],
       plugin: [
-        ['tsify', {target: 'es2015'}]
+        'tsify'
       ],
       extensions: ['.ts', '.tsx'],
       debug: true

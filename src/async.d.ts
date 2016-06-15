@@ -1,13 +1,5 @@
 export interface BlobFactory {
-  (blobParts: string[], options: {type: string}) : BlobWrapper
-}
-
-export interface BlobWrapper {
-  unwrap() : Blob
-}
-
-export interface UrlWrapper {
-  createObjectURL(blob: BlobWrapper) : string
+  (blobParts: string[], options: {type: string}) : Blob
 }
 
 export interface Util {

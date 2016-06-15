@@ -1,7 +1,6 @@
-import {Util, BlobFactory, UrlWrapper} from './async.d.ts'
-import Blob from './blob-factory'
+import {Util, BlobFactory} from './async.d.ts'
 
-export default function (Blob: BlobFactory, Url: UrlWrapper) : Util {
+export default function (Blob: BlobFactory, Url: URL) : Util {
   return {
     source: (fn: Function) : string => {
       return `(${fn.toString()})`
