@@ -4,11 +4,12 @@ export interface BlobFactory {
 
 export interface Util {
   source(fn: Function) : string
+  sourceCall(fn: Function) : string
   scriptUrl(src: string) : string
 }
 
 export interface WorkerFactory {
-  createWorker() : Worker
+  () : Worker
 }
 
 export interface WorkerPoolMessage {

@@ -48,7 +48,7 @@ class WorkerPoolImpl implements WorkerPool {
     if (worker) return Promise.resolve(worker)
 
     if (this.workers.length < this.size) {
-      worker = this.factory.createWorker()
+      worker = this.factory()
       this.workers.push(worker)
       return Promise.resolve(worker)
     }

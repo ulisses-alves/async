@@ -1,10 +1,10 @@
 import {expect} from 'chai'
-import {stub} from 'sinon'
+import {stub, spy} from 'sinon'
 import * as async from '../src/async.d.ts'
 import Util from '../src/util'
 
 describe('Util', () => {
-  let util: async.Util
+  let util: any
   let blobFactoryStub: any
   let blobStub: any
   let urlStub: any
@@ -29,6 +29,23 @@ describe('Util', () => {
       const source = util.source(fn)
       expect(fn.toString.calledOnce).to.be.true
       expect(source).to.equal(`(${fnStr})`)
+    })
+  })
+
+  describe('sourceCall(fn)', () => {
+    let fn: any
+    const sourceStr = 'source content'
+
+    beforeEach(() => {
+      fn = spy()
+      stub(util, 'source', () => sourceStr)
+    })
+
+    it('should serialize function call', () => {
+      const sourceCall = util.sourceCall(fn)
+      expect(util.source.calledWith(fn)).to.be.true
+      expect(util.source.calledOnce).to.be.true
+      expect(sourceCall).to.equal(`${sourceStr}.call(this)`)
     })
   })
 

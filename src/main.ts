@@ -1,4 +1,4 @@
-import workerMeta from './worker-meta'
+import workerConstructor from './worker-constructor'
 import BlobFactory from './blob-factory'
 import Util from './util'
 import WorkerFactory from './worker-factory'
@@ -7,7 +7,8 @@ import Async from './async'
 
 const blobFactory = BlobFactory()
 const util = Util(blobFactory, URL)
-const workerFactory = WorkerFactory(util, workerMeta)
+const workerFactory = WorkerFactory(util, workerConstructor)
 const workerPool = WorkerPool(workerFactory)
+const async = Async(util, workerPool)
 
-export = Async(util, workerPool)
+export = async
