@@ -29,10 +29,10 @@ class WorkerPoolImpl implements WorkerPool {
     return this.getWorker()
     .then(worker =>
       new Promise((resolve, reject) => {
-        worker.onmessage = this.handler(resolve)
-        worker.onerror = this.handler(reject)
+        worker.onmessage = this.handler(worker, resolve)
+        worker.onerror = this.handler(worker, reject)
         worker.postMessage(message)
-        cancellation.then(this.handler(() => worker.terminate()))
+        cancellation.then(this.handler(worker, () => worker.terminate()))
       }))
   }
 
@@ -56,21 +56,19 @@ class WorkerPoolImpl implements WorkerPool {
     return new Promise(resolve => this.queue.push(resolve))
   }
 
-  private handler(callback: WorkerCallback) : WorkerCallback {
-    let self = this
-
-    return function (e: Event) {
-      this.onmessage = null
-      this.onerror = null
+  private handler(worker: Worker, callback: WorkerCallback) : WorkerCallback {
+    return (e: Event) => {
+      worker.onmessage = null
+      worker.onerror = null
 
       callback(e)
 
-      if (self.queue.length) {
-        let notify = self.queue.pop()
-        return notify(this)
+      if (this.queue.length) {
+        let notify = this.queue.pop()
+        return notify(worker)
       }
 
-      self.idles.push(this)
+      this.idles.push(worker)
     }
   }
 }
