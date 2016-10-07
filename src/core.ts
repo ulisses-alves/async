@@ -2,6 +2,10 @@ export interface BlobFactory {
   (blobParts: string[], options: {type: string}) : Blob
 }
 
+export interface URLStatic {
+  createObjectURL(blob: Blob) : string
+}
+
 export interface Util {
   source(fn: Function) : string
   sourceCall(fn: Function) : string

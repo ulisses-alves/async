@@ -1,6 +1,6 @@
-import {Util, BlobFactory} from './async.d.ts'
+import {Util, BlobFactory, URLStatic} from './core'
 
-export default function (Blob: BlobFactory, Url: URL) : Util {
+export default function (Blob: BlobFactory, URL: URLStatic) : Util {
   const util: Util = {
     source: (fn: Function) : string => {
       return `(${fn.toString()})`
@@ -10,7 +10,7 @@ export default function (Blob: BlobFactory, Url: URL) : Util {
     },
     scriptUrl: (src: string) : string => {
       const blob = Blob([src], {type: 'text/javascript'})
-      return Url.createObjectURL(blob)
+      return URL.createObjectURL(blob)
     }
   }
 

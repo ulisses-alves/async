@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import {stub, spy} from 'sinon'
-import * as async from '../src/async.d.ts'
+import * as async from '../src/core'
 import WorkerFactory from '../src/worker-factory'
 
 describe('WorkerFactory', () => {

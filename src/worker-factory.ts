@@ -1,4 +1,4 @@
-import {Util, WorkerFactory} from './async.d.ts'
+import {Util, WorkerFactory} from './core'
 
 export default function (util: Util, workerConstructor: Function)
 : WorkerFactory {

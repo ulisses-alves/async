@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import * as async from '../src/async.d.ts'
+import * as async from '../src/core'
 import BlobFactory from '../src/blob-factory'
 
 describe('BlobFactory', () => {

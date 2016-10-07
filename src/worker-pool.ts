@@ -3,7 +3,7 @@ import {
 , WorkerPoolFactory
 , WorkerFactory
 , WorkerPoolMessage
-} from './async.d.ts'
+} from './core'
 
 interface QueueItem {
   (value: Worker) : void

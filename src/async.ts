@@ -5,7 +5,7 @@ import {
 , CancelablePromise
 , AsyncAction
 , Async
-} from './async.d.ts'
+} from './core'
 
 export default function (util: Util, workerPool: WorkerPoolFactory) : Async {
   let pool: WorkerPool = null
