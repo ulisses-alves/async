@@ -1,9 +1,9 @@
-import workerConstructor from './worker-constructor'
+import Async from './async'
 import BlobFactory from './blob-factory'
 import Util from './util'
+import workerConstructor from './worker-constructor'
 import WorkerFactory from './worker-factory'
 import WorkerPool from './worker-pool'
-import Async from './async'
 
 const blobFactory = BlobFactory()
 const util = Util(blobFactory, URL)

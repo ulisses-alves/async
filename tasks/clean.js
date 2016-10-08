@@ -1,4 +1,4 @@
-var gulp = require('gulp')
-var del = require('del')
+let gulp = require('gulp')
+let del = require('del')
 
 module.exports = gulp.task('clean', () => del(['dist/*']))

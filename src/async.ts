@@ -1,13 +1,13 @@
 import {
-  Util
+  Async
+, AsyncAction
+, CancelablePromise
+, Util
 , WorkerPool
 , WorkerPoolFactory
-, CancelablePromise
-, AsyncAction
-, Async
 } from './core'
 
-export default function (util: Util, workerPool: WorkerPoolFactory) : Async {
+export default function (util: Util, workerPool: WorkerPoolFactory): Async {
   let pool: WorkerPool = null
 
   let async: any = <T>(action: AsyncAction<T>, scope: any, args: any[]) => {
@@ -18,14 +18,14 @@ export default function (util: Util, workerPool: WorkerPoolFactory) : Async {
 
     let work: any = pool.postMessage({
       action: util.source(action),
-      scope: scope,
-      args: args
+      scope,
+      args
     }, cancellation)
     .then(e => e.data)
 
     work.cancel = cancel
 
-    return <CancelablePromise<T>>work
+    return <CancelablePromise<T>> work
   }
 
   async.pool = (size: number) => {
@@ -33,5 +33,5 @@ export default function (util: Util, workerPool: WorkerPoolFactory) : Async {
     pool = workerPool(size)
   }
 
-  return <Async>async
+  return <Async> async
 }

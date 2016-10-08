@@ -1,7 +1,7 @@
 import {
-  WorkerPool
+  WorkerFactory
+, WorkerPool
 , WorkerPoolFactory
-, WorkerFactory
 , WorkerPoolMessage
 } from './core'
 
@@ -24,8 +24,8 @@ class WorkerPoolImpl implements WorkerPool {
     this.queue = []
   }
 
-  postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) :
-  Promise<any> {
+  postMessage(message: WorkerPoolMessage,
+    cancellation: Promise<any>): Promise<any> {
     return this.getWorker()
     .then(worker =>
       new Promise((resolve, reject) => {
@@ -36,14 +36,14 @@ class WorkerPoolImpl implements WorkerPool {
       }))
   }
 
-  killAll() : void {
+  killAll(): void {
     this.workers.forEach(w => w.terminate())
     this.workers = []
     this.idles = []
   }
 
-  private getWorker() : Promise<Worker> {
-    var worker = this.idles.pop()
+  private getWorker(): Promise<Worker> {
+    let worker = this.idles.pop()
 
     if (worker) return Promise.resolve(worker)
 
@@ -56,7 +56,7 @@ class WorkerPoolImpl implements WorkerPool {
     return new Promise(resolve => this.queue.push(resolve))
   }
 
-  private handler(worker: Worker, callback: WorkerCallback) : WorkerCallback {
+  private handler(worker: Worker, callback: WorkerCallback): WorkerCallback {
     return (e: Event) => {
       worker.onmessage = null
       worker.onerror = null
@@ -73,8 +73,7 @@ class WorkerPoolImpl implements WorkerPool {
   }
 }
 
-export default function (workerFactory: WorkerFactory) : WorkerPoolFactory {
-  return function (size: number) : WorkerPool {
-    return new WorkerPoolImpl(workerFactory, size)
-  }
+export default function (workerFactory: WorkerFactory): WorkerPoolFactory {
+  return (size: number): WorkerPool =>
+    new WorkerPoolImpl(workerFactory, size)
 }

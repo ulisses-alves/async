@@ -1,10 +1,11 @@
-var gulp = require('gulp')
-var karma = require('karma')
+let gulp = require('gulp')
+let karma = require('karma')
 
 module.exports = gulp.task('test', ['build'], (done) => {
-  new karma.Server({
+  return new karma.Server({
     configFile: __dirname + '/../karma.conf.js',
     singleRun: true
-  }, () => done())
-  .start()
+  }, function () {
+    done()
+  }).start()
 })

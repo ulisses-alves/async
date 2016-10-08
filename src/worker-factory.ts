@@ -1,4 +1,7 @@
-import {Util, WorkerFactory} from './core'
+import {
+  Util
+, WorkerFactory
+} from './core'
 
 export default function (util: Util, workerConstructor: Function)
 : WorkerFactory {

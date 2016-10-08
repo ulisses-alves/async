@@ -1,15 +1,15 @@
 export interface BlobFactory {
-  (blobParts: string[], options: {type: string}) : Blob
+  (blobParts: string[], options: {type: string}): Blob
 }
 
 export interface URLStatic {
-  createObjectURL(blob: Blob) : string
+  createObjectURL(blob: Blob): string
 }
 
 export interface Util {
-  source(fn: Function) : string
-  sourceCall(fn: Function) : string
-  scriptUrl(src: string) : string
+  source(fn: Function): string
+  sourceCall(fn: Function): string
+  scriptUrl(src: string): string
 }
 
 export interface WorkerFactory {
@@ -23,9 +23,9 @@ export interface WorkerPoolMessage {
 }
 
 export interface WorkerPool {
-  postMessage(message: WorkerPoolMessage, cancellation: Promise<any>) :
-    Promise<any>
-  killAll() : void
+  postMessage(message: WorkerPoolMessage,
+    cancellation: Promise<any>): Promise<any>
+  killAll(): void
 }
 
 export interface WorkerPoolFactory {

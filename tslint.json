@@ -1,0 +1,14 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "quotemark": [true, "single", "avoid-scape"],
+    "semicolon": [true, "never"],
+    "trailing-comma": [false],
+    "curly": false,
+    "interface-name": [true, "never-prefix"],
+    "member-access": [false],
+    "align": [true, "statements"]
+  },
+  "rulesDirectory": [
+  ]
+}
