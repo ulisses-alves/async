@@ -17,9 +17,9 @@ export default function (util: Util, workerPool: WorkerPoolFactory): Async {
     let cancellation = new Promise(resolve => cancel = resolve)
 
     let work: any = pool.postMessage({
-      action: util.source(action),
-      scope,
-      args
+      action: util.source(action)
+    , args
+    , scope
     }, cancellation)
     .then(e => e.data)
 
@@ -28,7 +28,7 @@ export default function (util: Util, workerPool: WorkerPoolFactory): Async {
     return <CancelablePromise<T>> work
   }
 
-  async.pool = (size: number) => {
+  async.pool = (size: number): void => {
     if (pool) pool.killAll()
     pool = workerPool(size)
   }

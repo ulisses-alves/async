@@ -24,7 +24,7 @@ export interface WorkerPoolMessage {
 
 export interface WorkerPool {
   postMessage(message: WorkerPoolMessage,
-    cancellation: Promise<any>): Promise<any>
+    cancellation: Promise<void>): Promise<MessageEvent>
   killAll(): void
 }
 

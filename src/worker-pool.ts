@@ -10,7 +10,7 @@ interface QueueItem {
 }
 
 interface WorkerCallback {
-  (e: Event) : void
+  (e: MessageEvent|ErrorEvent) : void
 }
 
 class WorkerPoolImpl implements WorkerPool {
@@ -25,7 +25,7 @@ class WorkerPoolImpl implements WorkerPool {
   }
 
   postMessage(message: WorkerPoolMessage,
-    cancellation: Promise<any>): Promise<any> {
+    cancellation: Promise<any>): Promise<MessageEvent> {
     return this.getWorker()
     .then(worker =>
       new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ class WorkerPoolImpl implements WorkerPool {
   }
 
   private handler(worker: Worker, callback: WorkerCallback): WorkerCallback {
-    return (e: Event) => {
+    return (e: MessageEvent|ErrorEvent) => {
       worker.onmessage = null
       worker.onerror = null
 
