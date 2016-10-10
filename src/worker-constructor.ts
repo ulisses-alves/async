@@ -1,4 +1,4 @@
-function createWorker() {
+function createWorker(this: Worker) {
   const parseAction = (src: string) => {
     const body = `return (${src})`
     const fn = new Function(body)

@@ -13,6 +13,8 @@ interface WorkerCallback {
   (e: MessageEvent|ErrorEvent) : void
 }
 
+let noop = () => {}
+
 class WorkerPoolImpl implements WorkerPool {
   private workers: Array<Worker>
   private idles: Array<Worker>
@@ -58,15 +60,14 @@ class WorkerPoolImpl implements WorkerPool {
 
   private handler(worker: Worker, callback: WorkerCallback): WorkerCallback {
     return (e: MessageEvent|ErrorEvent) => {
-      worker.onmessage = null
-      worker.onerror = null
+      worker.onmessage = noop
+      worker.onerror = noop
 
       callback(e)
 
-      if (this.queue.length) {
-        let notify = this.queue.pop()
-        return notify(worker)
-      }
+      let notify = this.queue.pop()
+
+      if (notify) return notify(worker)
 
       this.idles.push(worker)
     }
