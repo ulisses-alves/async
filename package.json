@@ -22,7 +22,9 @@
     "start_port": "3000"
   },
   "scripts": {
-    "prepublish": "gulp",
+    "typings": "typings",
+    "gulp": "gulp",
+    "prepublish": "typings install && gulp",
     "test": "gulp test"
   },
   "devDependencies": {
@@ -53,6 +55,7 @@
     "require-dir": "^0.3.0",
     "sinon": "^1.17.4",
     "tsify": "^1.0.8",
+    "typings": "^1.4.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
