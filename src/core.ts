@@ -36,11 +36,16 @@ export interface CancelablePromise<T> extends Promise<T> {
   cancel: () => void
 }
 
-export interface AsyncAction<T> {
-  (...p: any[]) : T
+export interface AsyncPool {
+  pool: (size: number) => void
 }
 
+export type AsyncAction<TResult, TArg1, TArg2> =
+  {(this: void, arg1: TArg1): TResult} |
+  {(this: void, arg1: TArg1, arg2: TArg2): TResult}
+
 export interface Async {
-  <T>(action: AsyncAction<T>, scope: any, args: any[]) : CancelablePromise<T>
-  pool: (size: number) => void
+  <TResult, TArg1, TArg2>(
+    action: AsyncAction<TResult, TArg1, TArg2>,
+    args: [TArg1, TArg2]): CancelablePromise<TResult>
 }

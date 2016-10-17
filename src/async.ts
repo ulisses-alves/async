@@ -1,16 +1,18 @@
 import {
   Async
 , AsyncAction
+, AsyncPool
 , CancelablePromise
 , Util
 , WorkerPool
 , WorkerPoolFactory
 } from './core'
 
-export default function (util: Util, workerPool: WorkerPoolFactory): Async {
+export default function (util: Util, workerPool: WorkerPoolFactory) {
   let pool: WorkerPool
 
-  let async: any = <T>(action: AsyncAction<T>, scope: any, args: any[]) => {
+  let async: any = <TResult, TArg1, TArg2>(
+    action: AsyncAction<TResult, TArg1, TArg2>, args: any[]) => {
     if (!pool) async.pool(8)
 
     let cancel: (() => any) | null = null
@@ -19,13 +21,13 @@ export default function (util: Util, workerPool: WorkerPoolFactory): Async {
     let work: any = pool.postMessage({
       action: util.source(action)
     , args
-    , scope
+    , scope: null
     }, cancellation)
-    .then(e => <T>e.data)
+    .then(e => <TResult> e.data)
 
     work.cancel = () => cancel && cancel()
 
-    return <CancelablePromise<T>> work
+    return <CancelablePromise<TResult>> work
   }
 
   async.pool = (size: number): void => {
@@ -33,5 +35,5 @@ export default function (util: Util, workerPool: WorkerPoolFactory): Async {
     pool = workerPool(size)
   }
 
-  return <Async> async
+  return <Async & AsyncPool> async
 }
