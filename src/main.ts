@@ -11,4 +11,4 @@ const workerFactory = WorkerFactory(util, workerConstructor)
 const workerPool = WorkerPool(workerFactory)
 const async = Async(util, workerPool)
 
-export = async
+export default async
